@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Withdraw</title>
+  <link rel="stylesheet" href="style.css"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"/>
+  <style>
+    .withdraw-wrap { padding:20px; max-width:480px; margin:0 auto; }
+    .wallet-preview {
+      background:linear-gradient(135deg,#0d1f2a,#1a2e3a);
+      border:1px solid #00ffd5; border-radius:16px;
+      padding:20px; text-align:center; margin-bottom:20px;
+    }
+    .wallet-preview p { color:#aaa; font-size:13px; margin:0 0 4px; }
+    .wallet-preview h2 { color:#00ffd5; font-size:30px; font-weight:700; margin:0; }
+    .withdraw-card {
+      background:#151515; border:1px solid #222; border-radius:16px; padding:20px;
+    }
+    .withdraw-card h3 { color:#00ffd5; font-size:16px; margin:0 0 16px; }
+    .input-group { position:relative; margin-bottom:14px; }
+    .input-group i { position:absolute; left:14px; top:50%; transform:translateY(-50%); color:#555; }
+    .input-group input {
+      width:100%; padding:13px 14px 13px 40px; background:#1a1a1a;
+      border:1px solid #2a2a2a; border-radius:10px; color:white; outline:none;
+    }
+    .input-group input:focus { border-color:#00ffd5; }
+    .quick-amounts { display:flex; gap:8px; margin-bottom:14px; }
+    .quick-btn {
+      flex:1; padding:10px; border-radius:10px; border:1px solid #333;
+      background:#1a1a1a; color:#aaa; font-size:13px; cursor:pointer;
+    }
+    .quick-btn:hover { border-color:#00ffd5; color:#00ffd5; }
+    .min-note { color:#aaa; font-size:12px; text-align:center; margin-bottom:14px; }
+    .min-note strong { color:#00ffd5; }
+    .pending-section { margin-top:20px; }
+    .pending-section h3 { color:#aaa; font-size:14px; margin-bottom:10px; }
+    .pending-card {
+      background:#1a1a1a; border:1px solid #333; border-radius:12px;
+      padding:14px; margin-bottom:8px; display:flex; justify-content:space-between; align-items:center;
+    }
+    .pending-card .pc-left h4 { color:white; font-size:14px; margin:0 0 4px; }
+    .pending-card .pc-left p  { color:#666; font-size:12px; margin:0; }
+    .status-badge {
+      font-size:11px; padding:4px 10px; border-radius:20px; font-weight:600;
+    }
+    .status-pending  { background:#2a2000; color:#ffd700; }
+    .status-approved { background:#0d2a1a; color:#00ff88; }
+    .status-rejected { background:#2a0d0d; color:#ff4444; }
+  </style>
+</head>
+<body>
+
+<header>
+  <h1>💸 Withdraw</h1>
+</header>
+
+<div class="withdraw-wrap">
+
+  <!-- WALLET BALANCE -->
+  <div class="wallet-preview">
+    <p>Available Balance</p>
+    <h2 id="walletDisplay">₹0</h2>
+  </div>
+
+  <div class="withdraw-card">
+    <h3><i class="fa-solid fa-money-bill-transfer"></i> Request Withdrawal</h3>
+
+    <!-- QUICK AMOUNTS -->
+    <div class="quick-amounts">
+      <button class="quick-btn" data-amount="100">₹100</button>
+      <button class="quick-btn" data-amount="200">₹200</button>
+      <button class="quick-btn" data-amount="500">₹500</button>
+      <button class="quick-btn" data-amount="1000">₹1000</button>
+    </div>
+
+    <div class="input-group">
+      <i class="fa-solid fa-indian-rupee-sign"></i>
+      <input type="number" id="amount" placeholder="Enter Amount"/>
+    </div>
+
+    <p class="min-note">Minimum: <strong>₹60</strong> &nbsp;|&nbsp; Amount held until admin approves</p>
+
+    <div class="input-group">
+      <i class="fa-solid fa-wallet"></i>
+      <input type="text" id="upi" placeholder="Your UPI ID (e.g. name@upi)"/>
+    </div>
+
+    <button id="sendWithdrawBtn" style="width:100%;padding:14px;">
+      <i class="fa-solid fa-paper-plane"></i> Submit Withdrawal Request
+    </button>
+  </div>
+
+  <!-- PENDING HISTORY -->
+  <div class="pending-section">
+    <h3>Recent Withdrawal Requests</h3>
+    <div id="withdrawHistory"></div>
+  </div>
+
+</div>
+
+<footer>
+  <div class="social-links">
+    <a href="https://t.me/phantomwarzone" target="_blank" class="social-btn telegram"><i class="fa-brands fa-telegram"></i> Telegram</a>
+    <a href="https://t.me/Phantomwarzonesupport" target="_blank" class="social-btn support"><i class="fa-solid fa-headset"></i> Support</a>
+    <a href="https://www.instagram.com/phantom_war_zone?igsh=MWxtdm4xc3Q0OHcxcw==" target="_blank" class="social-btn instagram"><i class="fa-brands fa-instagram"></i> Instagram</a>
+  </div>
+  <p>© 2026 Phantom Warzone</p>
+</footer>
+
+<nav class="bottom-nav">
+  <button onclick="window.location.href='dashboard.html'"><i class="fa-solid fa-house"></i><span>Home</span></button>
+  <button onclick="window.location.href='dashboard.html#matchesContainer'"><i class="fa-solid fa-fire"></i><span>Join</span></button>
+  <button onclick="window.location.href='mymatches.html'"><i class="fa-solid fa-gamepad"></i><span>My Matches</span></button>
+  <button onclick="window.location.href='history.html'"><i class="fa-solid fa-wallet"></i><span>Wallet</span></button>
+  <button onclick="window.location.href='profile.html'"><i class="fa-solid fa-user"></i><span>Profile</span></button>
+</nav>
+
+<div id="toast"></div>
+<script>
+function setAmount(val) {
+  document.getElementById("amount").value = val;
+}
+</script>
+<script type="module" src="withdraw.js"></script>
+
+<script>
+function waitForFn(name,retries=20){
+  return new Promise((resolve,reject)=>{
+    const check=(i)=>{
+      if(typeof window[name]==="function") resolve(window[name]);
+      else if(i<=0) reject(new Error(name));
+      else setTimeout(()=>check(i-1),150);
+    };
+    check(retries);
+  });
+}
+document.addEventListener("DOMContentLoaded",()=>{
+  // Quick amount buttons
+  document.querySelectorAll("[data-amount]").forEach(btn=>{
+    btn.addEventListener("click",()=>{
+      const inp=document.getElementById("amount");
+      if(inp) inp.value=btn.dataset.amount;
+    });
+  });
+  // Send withdraw
+  const wb=document.getElementById("sendWithdrawBtn");
+  if(wb) wb.addEventListener("click", async()=>{
+    try{ const f=await waitForFn("sendWithdraw"); f(); }
+    catch(e){ console.error(e); }
+  });
+});
+</script>
+</body>
+</html>

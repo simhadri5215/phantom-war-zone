@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Profile</title>
+  <link rel="stylesheet" href="style.css"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"/>
+  <style>
+    .profile-avatar-wrap { position:relative; display:inline-block; margin-bottom:10px; }
+    .avatar-edit-btn {
+      position:absolute; bottom:4px; right:4px;
+      background:linear-gradient(135deg,#00ffd5,#00a8ff);
+      border:none; border-radius:50%; width:30px; height:30px;
+      display:flex; align-items:center; justify-content:center;
+      cursor:pointer; font-size:13px; color:black;
+    }
+    .edit-section {
+      background:#1a1a1a; border:1px solid #333; border-radius:14px;
+      padding:18px; margin:15px 0;
+    }
+    .edit-section h3 { color:#00ffd5; font-size:15px; margin-bottom:12px; }
+    .edit-section input {
+      width:100%; padding:12px; background:#222; color:white;
+      border:1px solid #333; border-radius:10px; margin-bottom:10px; outline:none;
+    }
+    .edit-section input:focus { border-color:#00ffd5; }
+    .referral-box {
+      background:linear-gradient(135deg,#1a1a1a,#222);
+      border:1px solid #00ffd5; border-radius:14px;
+      padding:16px; margin:15px 0; text-align:center;
+    }
+    .referral-code-display {
+      font-size:26px; font-weight:700; color:#00ffd5;
+      letter-spacing:4px; margin:8px 0;
+    }
+    .referral-bonus-info { color:#aaa; font-size:12px; margin-bottom:12px; }
+    .referral-actions { display:flex; gap:8px; }
+    .referral-actions button { flex:1; font-size:13px; padding:10px; }
+    .btn-share { background:linear-gradient(135deg,#00ffd5,#00a8ff); color:black; }
+    .btn-copy-ref { background:#222; color:#00ffd5; border:1px solid #333; }
+    .stats-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:10px; margin:15px 0; }
+    .stat-item { background:#1a1a1a; border:1px solid #222; border-radius:12px; padding:14px; text-align:center; }
+    .stat-item h3 { color:#00ffd5; font-size:13px; margin-bottom:6px; }
+    .stat-item p { color:white; font-size:20px; font-weight:700; margin:0; }
+    .kills-stat p { color:#ff6b35; }
+    .profile-page { padding:20px; max-width:480px; margin:0 auto; text-align:center; }
+  </style>
+</head>
+<body>
+
+<header>
+  <h1>My Profile</h1>
+</header>
+
+<div class="profile-page">
+
+  <!-- AVATAR -->
+  <div class="profile-avatar-wrap">
+    <img id="profileImage" src="https://cdn-icons-png.flaticon.com/512/149/149071.png" class="profile-photo"
+      style="width:90px;height:90px;border-radius:50%;border:3px solid #00ffd5;object-fit:cover;"/>
+    <button class="avatar-edit-btn" onclick="document.getElementById('avatarFile').click()" title="Change Avatar">
+      <i class="fa-solid fa-camera"></i>
+    </button>
+    <input type="file" id="avatarFile" accept="image/*" style="display:none;"/>
+  </div>
+
+  <h2 id="profileEmail" style="color:white;font-size:16px;margin:6px 0 2px;">Loading...</h2>
+  <p id="profileUid" style="color:#666;font-size:12px;margin:0 0 4px;">UID</p>
+  <p id="profileGameName" style="color:#00ffd5;font-size:14px;font-weight:600;margin:0;">🎮 Game name loading...</p>
+
+  <!-- STATS -->
+  <div class="stats-grid">
+    <div class="stat-item">
+      <h3>💰 Wallet</h3>
+      <p id="profileWallet">₹0</p>
+    </div>
+    <div class="stat-item">
+      <h3>🎮 Matches</h3>
+      <p id="matchesJoined">0</p>
+    </div>
+    <div class="stat-item">
+      <h3>🏆 Wins</h3>
+      <p id="winsCount">0</p>
+    </div>
+    <div class="stat-item">
+      <h3>💀 Total Kills</h3>
+      <p id="totalKills" style="color:#ff6b35;">0</p>
+    </div>
+    <div class="stat-item">
+      <h3>👑 Booyahs</h3>
+      <p id="booyahCount" style="color:gold;">0</p>
+    </div>
+    <div class="stat-item">
+      <h3>💵 Earned</h3>
+      <p id="totalEarned" style="color:#00ff88;">₹0</p>
+    </div>
+  </div>
+
+  <!-- EDIT PROFILE -->
+  <div class="edit-section">
+    <h3><i class="fa-solid fa-pen"></i> Edit Profile</h3>
+    <input type="text" id="editGameName" placeholder="In-Game Name (e.g. ShadowFF)"/>
+    <input type="tel" id="editPhone" placeholder="Phone Number (optional)"/>
+    <button onclick="saveProfile()" style="width:100%;padding:12px;">
+      <i class="fa-solid fa-floppy-disk"></i> Save Changes
+    </button>
+  </div>
+
+  <!-- REFERRAL BOX -->
+  <div class="referral-box">
+    <p style="color:#aaa;font-size:13px;margin:0 0 4px;">Your Referral Code</p>
+    <div class="referral-code-display" id="referralCodeText">------</div>
+    <p class="referral-bonus-info">Earn ₹10 when a friend joins their first paid match using your code!</p>
+    <div class="referral-actions">
+      <button class="btn-copy-ref" onclick="copyReferral()">
+        <i class="fa-solid fa-copy"></i> Copy Code
+      </button>
+      <button class="btn-share" onclick="shareReferral()">
+        <i class="fa-solid fa-share-nodes"></i> Share Link
+      </button>
+    </div>
+    <p style="color:#555;font-size:11px;margin-top:8px;">Referral bonus earned: <span id="referralBonusEarned" style="color:#00ff88;">₹0</span></p>
+  </div>
+
+  <button onclick="logout()" style="width:100%;margin-top:10px;background:linear-gradient(135deg,#ff4444,#ff0000);color:white;">
+    <i class="fa-solid fa-right-from-bracket"></i> Logout
+  </button>
+
+</div>
+
+<nav class="bottom-nav">
+  <button onclick="window.location.href='dashboard.html'"><i class="fa-solid fa-house"></i><span>Home</span></button>
+  <button onclick="window.location.href='dashboard.html#matchesContainer'"><i class="fa-solid fa-fire"></i><span>Join</span></button>
+  <button onclick="window.location.href='mymatches.html'"><i class="fa-solid fa-gamepad"></i><span>My Matches</span></button>
+  <button onclick="window.location.href='history.html'"><i class="fa-solid fa-wallet"></i><span>Wallet</span></button>
+  <button onclick="window.location.href='profile.html'"><i class="fa-solid fa-user"></i><span>Profile</span></button>
+</nav>
+
+<footer>
+  <div class="social-links">
+    <a href="https://t.me/phantomwarzone" target="_blank" class="social-btn telegram"><i class="fa-brands fa-telegram"></i> Telegram</a>
+    <a href="https://t.me/Phantomwarzonesupport" target="_blank" class="social-btn support"><i class="fa-solid fa-headset"></i> Support</a>
+    <a href="https://www.instagram.com/phantom_war_zone?igsh=MWxtdm4xc3Q0OHcxcw==" target="_blank" class="social-btn instagram"><i class="fa-brands fa-instagram"></i> Instagram</a>
+  </div>
+  <p>© 2026 Phantom Warzone</p>
+</footer>
+
+<div id="toast"></div>
+<script type="module" src="profile.js"></script>
+</body>
+</html>

@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Phantom Warzone – Login</title>
+  <link rel="stylesheet" href="style.css"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"/>
+  <style>
+    .auth-wrapper {
+      width: 90%;
+      max-width: 420px;
+      margin: 40px auto 100px;
+    }
+
+    /* LOGO */
+    .auth-logo {
+      text-align: center;
+      margin-bottom: 24px;
+    }
+    .auth-logo h1 {
+      font-size: 26px;
+      color: #00ffd5;
+      letter-spacing: 2px;
+    }
+    .auth-logo p {
+      color: #aaa;
+      font-size: 13px;
+      margin-top: 4px;
+    }
+
+    /* TAB SWITCHER */
+    .auth-tabs {
+      display: flex;
+      background: #111;
+      border: 1px solid #222;
+      border-radius: 14px;
+      padding: 5px;
+      margin-bottom: 20px;
+      gap: 5px;
+    }
+    .auth-tab {
+      flex: 1;
+      padding: 12px;
+      border-radius: 10px;
+      border: none;
+      background: transparent;
+      color: #aaa;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: 0.25s;
+      transform: none !important;
+    }
+    .auth-tab.active {
+      background: linear-gradient(135deg, #00ffd5, #00a8ff);
+      color: black;
+      box-shadow: 0 0 14px rgba(0,255,213,0.3);
+    }
+
+    /* CARD */
+    .auth-card {
+      background: #151515;
+      border: 1px solid #222;
+      border-radius: 20px;
+      padding: 28px 24px;
+      box-shadow: 0 0 30px rgba(0,255,213,0.07);
+    }
+
+    /* PANELS */
+    .auth-panel { display: none; }
+    .auth-panel.active { display: block; }
+
+    .auth-card h2 {
+      color: #00ffd5;
+      font-size: 18px;
+      margin-bottom: 6px;
+    }
+    .auth-card .subtitle {
+      color: #666;
+      font-size: 13px;
+      margin-bottom: 20px;
+    }
+
+    /* INPUT GROUP */
+    .input-group {
+      position: relative;
+      margin-bottom: 14px;
+    }
+    .input-group i {
+      position: absolute;
+      left: 14px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: #555;
+      font-size: 15px;
+    }
+    .input-group input {
+      width: 100%;
+      padding: 13px 14px 13px 40px;
+      background: #1a1a1a;
+      border: 1px solid #2a2a2a;
+      border-radius: 10px;
+      color: white;
+      font-size: 14px;
+      outline: none;
+      transition: border-color 0.2s;
+      margin: 0;
+    }
+    .input-group input:focus {
+      border-color: #00ffd5;
+    }
+    .input-group input::placeholder { color: #555; }
+
+    /* OPTIONAL BADGE */
+    .optional-label {
+      font-size: 11px;
+      color: #555;
+      text-align: right;
+      margin-top: -10px;
+      margin-bottom: 10px;
+    }
+
+    /* SUBMIT BTN */
+    .auth-submit {
+      width: 100%;
+      padding: 14px;
+      margin-top: 6px;
+      font-size: 15px;
+      border-radius: 12px;
+      background: linear-gradient(135deg, #00ffd5, #00a8ff);
+      color: black;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+    }
+
+    /* DIVIDER */
+    .auth-divider {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin: 18px 0;
+      color: #333;
+      font-size: 12px;
+    }
+    .auth-divider::before,
+    .auth-divider::after {
+      content: "";
+      flex: 1;
+      height: 1px;
+      background: #222;
+    }
+
+    /* SWITCH LINK */
+    .auth-switch {
+      text-align: center;
+      font-size: 13px;
+      color: #666;
+      margin-top: 18px;
+    }
+    .auth-switch span {
+      color: #00ffd5;
+      cursor: pointer;
+      font-weight: 600;
+    }
+    .auth-switch span:hover { text-decoration: underline; }
+
+    /* FORGOT */
+    .forgot-link {
+      text-align: right;
+      font-size: 12px;
+      color: #00ffd5;
+      cursor: pointer;
+      margin-top: -8px;
+      margin-bottom: 14px;
+    }
+    .forgot-link:hover { text-decoration: underline; }
+  </style>
+</head>
+<body>
+
+<div class="auth-wrapper">
+
+  <!-- LOGO -->
+  <div class="auth-logo">
+    <h1>⚡ PHANTOM WARZONE</h1>
+    <p>India's Ultimate Free Fire Tournament Platform</p>
+  </div>
+
+  <!-- TABS -->
+  <div class="auth-tabs">
+    <button class="auth-tab active" id="tabLogin" onclick="switchTab('login')">
+      <i class="fa-solid fa-right-to-bracket"></i> Login
+    </button>
+    <button class="auth-tab" id="tabSignup" onclick="switchTab('signup')">
+      <i class="fa-solid fa-user-plus"></i> Sign Up
+    </button>
+  </div>
+
+  <div class="auth-card">
+
+    <!-- LOGIN PANEL -->
+    <div class="auth-panel active" id="panelLogin">
+      <h2>Welcome Back 👋</h2>
+      <p class="subtitle">Login to continue playing</p>
+
+      <div class="input-group">
+        <i class="fa-solid fa-envelope"></i>
+        <input type="email" id="loginEmail" placeholder="Email address"/>
+      </div>
+
+      <div class="input-group">
+        <i class="fa-solid fa-lock"></i>
+        <input type="password" id="loginPassword" placeholder="Password"/>
+      </div>
+
+      <div class="forgot-link" onclick="forgotPassword()">Forgot Password?</div>
+
+      <button class="auth-submit" onclick="login()">
+        <i class="fa-solid fa-right-to-bracket"></i> Login
+      </button>
+
+      <div class="auth-divider">or</div>
+
+      <div class="auth-switch">
+        New here? <span onclick="switchTab('signup')">Create an account</span>
+      </div>
+    </div>
+
+    <!-- SIGNUP PANEL -->
+    <div class="auth-panel" id="panelSignup">
+      <h2>Create Account 🎮</h2>
+      <p class="subtitle">Join and start winning!</p>
+
+      <div class="input-group">
+        <i class="fa-solid fa-envelope"></i>
+        <input type="email" id="signupEmail" placeholder="Email address"/>
+      </div>
+
+      <div class="input-group">
+        <i class="fa-solid fa-lock"></i>
+        <input type="password" id="signupPassword" placeholder="Password (min 6 chars)"/>
+      </div>
+
+      <div class="input-group">
+        <i class="fa-solid fa-gift"></i>
+        <input type="text" id="referralCode" placeholder="Referral Code (optional)"/>
+      </div>
+      <div class="optional-label">Optional – get bonus when you join!</div>
+
+      <button class="auth-submit" onclick="signup()">
+        <i class="fa-solid fa-user-plus"></i> Create Account
+      </button>
+
+      <div class="auth-divider">or</div>
+
+      <div class="auth-switch">
+        Already have an account? <span onclick="switchTab('login')">Login</span>
+      </div>
+    </div>
+
+  </div><!-- /auth-card -->
+</div><!-- /auth-wrapper -->
+
+<footer style="text-align:center;padding:20px;color:gray;">
+  © 2026 Phantom Warzone
+  <div class="social-links" style="margin-top:10px;">
+    <a href="https://t.me/phantomwarzone" target="_blank" class="social-btn telegram">
+      <i class="fa-brands fa-telegram"></i> Telegram Channel
+    </a>
+    <a href="https://t.me/Phantomwarzonesupport" target="_blank" class="social-btn support">
+      <i class="fa-solid fa-headset"></i> Support
+    </a>
+    <a href="https://www.instagram.com/phantom_war_zone?igsh=MWxtdm4xc3Q0OHcxcw==" target="_blank" class="social-btn instagram">
+      <i class="fa-brands fa-instagram"></i> Instagram
+    </a>
+  </div>
+</footer>
+
+<div id="toast"></div>
+
+<script>
+function switchTab(tab) {
+  document.getElementById("panelLogin").classList.toggle("active", tab === "login");
+  document.getElementById("panelSignup").classList.toggle("active", tab === "signup");
+  document.getElementById("tabLogin").classList.toggle("active", tab === "login");
+  document.getElementById("tabSignup").classList.toggle("active", tab === "signup");
+}
+</script>
+
+<script src="popup.js"></script>
+<script type="module" src="login.js"></script>
+
+</body>
+</html>

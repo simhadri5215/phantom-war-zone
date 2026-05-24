@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Add Money</title>
+  <link rel="stylesheet" href="style.css"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"/>
+</head>
+<body>
+
+<header>
+  <h1>💰 Add Money</h1>
+</header>
+
+<!-- TIMING BANNER -->
+<div class="deposit-timing-banner">
+  <i class="fa-solid fa-clock"></i>
+  Deposit Timing: <strong>8:00 AM – 9:00 PM</strong> only
+</div>
+
+<!-- UPI SECTION -->
+<div class="login-container" id="depositForm">
+
+  <h2>Send Money via UPI</h2>
+
+  <!-- UPI ID DISPLAY -->
+  <div class="upi-display-box" id="upiDisplayBox">
+    <p style="color:#aaa;font-size:13px;">Send money to this UPI ID:</p>
+    <h2 id="upiIdText" style="color:#00ffd5;margin:8px 0;word-break:break-all;">Loading...</h2>
+    <button id="copyUPIBtn" style="width:100%;margin-top:8px;">
+      <i class="fa-solid fa-copy"></i> Copy UPI ID
+    </button>
+  </div>
+
+  <p style="color:#aaa;font-size:13px;margin:15px 0 5px;">Minimum deposit: <strong style="color:#00ffd5;">₹30</strong></p>
+
+  <input type="number" id="amount" placeholder="Enter Amount (Min ₹30)" min="30"/>
+
+  <input type="text" id="utrNumber" placeholder="Enter UTR / Transaction Number"/>
+
+  <div class="screenshot-upload">
+    <label for="screenshot" style="color:#aaa;font-size:13px;">Upload Payment Screenshot:</label>
+    <input type="file" id="screenshot" accept="image/*" style="
+      width:100%;
+      padding:10px;
+      margin-top:8px;
+      background:#222;
+      color:white;
+      border-radius:10px;
+      border:1px dashed #00ffd5;
+    "/>
+  </div>
+
+  <button id="submitDepositBtn" style="margin-top:15px;">
+    <i class="fa-solid fa-paper-plane"></i> Submit Deposit Request
+  </button>
+
+</div>
+
+<!-- SUCCESS POPUP -->
+<div id="successPopup" style="display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.85);z-index:99999;justify-content:center;align-items:center;">
+  <div style="background:#151515;border:1px solid #00ffd5;border-radius:20px;padding:30px;max-width:340px;width:90%;text-align:center;box-shadow:0 0 30px rgba(0,255,213,0.3);">
+    <div style="font-size:50px;margin-bottom:15px;">✅</div>
+    <h2 style="color:#00ffd5;margin-bottom:10px;">Request Submitted!</h2>
+    <p style="color:#ddd;margin-bottom:8px;">Your deposit request has been sent to admin.</p>
+    <div style="background:#1a1a1a;border-radius:12px;padding:15px;margin:15px 0;">
+      <i class="fa-solid fa-clock" style="color:#00ffd5;font-size:24px;"></i>
+      <p style="color:#00ffd5;font-weight:bold;margin-top:8px;">Please wait up to 30 minutes</p>
+      <p style="color:#aaa;font-size:13px;margin-top:5px;">Admin will approve and credit your wallet during deposit hours (8 AM – 9 PM)</p>
+    </div>
+    <button id="closePopupBtn">OK, Got It!</button>
+  </div>
+</div>
+
+<footer>
+  <div class="social-links">
+    <a href="https://t.me/phantomwarzone" target="_blank" class="social-btn telegram">
+      <i class="fa-brands fa-telegram"></i> Telegram Channel
+    </a>
+    <a href="https://t.me/Phantomwarzonesupport" target="_blank" class="social-btn support">
+      <i class="fa-solid fa-headset"></i> Support
+    </a>
+    <a href="https://www.instagram.com/phantom_war_zone?igsh=MWxtdm4xc3Q0OHcxcw==" target="_blank" class="social-btn instagram">
+      <i class="fa-brands fa-instagram"></i> Instagram
+    </a>
+  </div>
+  <p>© 2026 Phantom Warzone</p>
+</footer>
+
+<div id="toast"></div>
+
+<nav class="bottom-nav">
+  <button onclick="window.location.href='dashboard.html'">
+    <i class="fa-solid fa-house"></i><span>Home</span>
+  </button>
+  <button onclick="window.location.href='dashboard.html#matchesContainer'">
+    <i class="fa-solid fa-fire"></i><span>Join</span>
+  </button>
+  <button onclick="window.location.href='mymatches.html'">
+    <i class="fa-solid fa-gamepad"></i><span>My Matches</span>
+  </button>
+  <button onclick="window.location.href='history.html'">
+    <i class="fa-solid fa-wallet"></i><span>Wallet</span>
+  </button>
+  <button onclick="window.location.href='profile.html'">
+    <i class="fa-solid fa-user"></i><span>Profile</span>
+  </button>
+</nav>
+
+<script type="module" src="addmoney.js"></script>
+
+
+<script>
+function waitForFn(name,retries=20){
+  return new Promise((resolve,reject)=>{
+    const check=(i)=>{
+      if(typeof window[name]==="function") resolve(window[name]);
+      else if(i<=0) reject(new Error(name+" not ready"));
+      else setTimeout(()=>check(i-1),150);
+    };
+    check(retries);
+  });
+}
+document.addEventListener("DOMContentLoaded",()=>{
+  const wire=(id,fn)=>{
+    const el=document.getElementById(id);
+    if(el) el.addEventListener("click", async()=>{
+      try{ const f=await waitForFn(fn); f(); }
+      catch(e){ console.error(fn,e); }
+    });
+  };
+  wire("copyUPIBtn","copyUPI");
+  wire("submitDepositBtn","submitDeposit");
+  wire("closePopupBtn","closePopup");
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport"
+  content="width=device-width, initial-scale=1.0"/>
+
+  <title>Results</title>
+
+  <link rel="stylesheet"
+  href="style.css"/>
+  <link
+rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"/>
+</head>
+<body>
+
+<div class="login-container">
+
+  <h2>Upload Winner</h2>
+
+  <input
+  type="text"
+  id="winnerEmail"
+  placeholder="Winner Email"/>
+
+  <input
+  type="text"
+  id="matchName"
+  placeholder="Match Name"/>
+
+  <input
+  type="number"
+  id="winningAmount"
+  placeholder="Winning Amount"/>
+
+  <button onclick="uploadResult()">
+    Upload Result
+  </button>
+
+</div>
+
+<script type="module"
+src="results.js"></script>
+<footer style="
+text-align:center;
+padding:20px;
+color:gray;
+">
+
+  © 2026 Phantom Warzone
+  <div class="social-links">
+    <a href="https://t.me/phantomwarzone" target="_blank" class="social-btn telegram">
+      <i class="fa-brands fa-telegram"></i> Telegram Channel
+    </a>
+    <a href="https://t.me/Phantomwarzonesupport" target="_blank" class="social-btn support">
+      <i class="fa-solid fa-headset"></i> Support
+    </a>
+    <a href="https://www.instagram.com/phantom_war_zone?igsh=MWxtdm4xc3Q0OHcxcw==" target="_blank" class="social-btn instagram">
+      <i class="fa-brands fa-instagram"></i> Instagram
+    </a>
+  </div>
+</footer>
+<div id="toast"></div>
+<script>
+
+window.addEventListener("load", ()=>{
+
+  const loader =
+  document.getElementById("loader");
+
+  if(loader){
+
+    loader.style.opacity = "0";
+
+    setTimeout(()=>{
+
+      loader.style.display = "none";
+
+    },500);
+
+  }
+
+});
+
+</script>
+</body>
+</html>

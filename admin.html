@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Admin Panel</title>
+  <link rel="stylesheet" href="style.css"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"/>
+</head>
+<body>
+
+<header>
+  <h1>⚙️ Admin Panel</h1>
+  <button id="logoutAdminBtn">Logout</button>
+</header>
+
+<!-- SUMMARY CARDS -->
+<section class="admin-summary">
+  <div class="summary-card">
+    <span>Total Users</span>
+    <strong id="totalUsers">0</strong>
+  </div>
+  <div class="summary-card">
+    <span>Total Matches</span>
+    <strong id="totalMatches">0</strong>
+  </div>
+  <div class="summary-card">
+    <span>Entry Collection</span>
+    <strong id="totalEntryCollection">₹0</strong>
+  </div>
+  <div class="summary-card">
+    <span>Paid Winnings</span>
+    <strong id="totalPaidWinnings">₹0</strong>
+  </div>
+  <div class="summary-card">
+    <span>Pending Withdrawals</span>
+    <strong id="pendingWithdrawals">0</strong>
+  </div>
+  <div class="summary-card">
+    <span>Pending Deposits</span>
+    <strong id="pendingDeposits">0</strong>
+  </div>
+</section>
+
+<!-- QUICK ACTION BUTTONS -->
+<div class="admin-quick-btns">
+
+  <button class="admin-action-btn" data-action="toggleSection" data-target="depositSection">
+    <i class="fa-solid fa-money-bill-transfer"></i>
+    <span>💰 Deposit Requests</span>
+    <span class="admin-badge" id="depositBadge">0</span>
+  </button>
+
+  <button class="admin-action-btn" data-action="toggleSection" data-target="withdrawSection">
+    <i class="fa-solid fa-wallet"></i>
+    <span>🏦 Withdrawal Requests</span>
+    <span class="admin-badge" id="withdrawBadge">0</span>
+  </button>
+
+  <button class="admin-action-btn" data-action="toggleSection" data-target="matchSection">
+    <i class="fa-solid fa-gamepad"></i>
+    <span>🎮 Create Match</span>
+  </button>
+
+  <button class="admin-action-btn" data-action="toggleSection" data-target="matchListSection">
+    <i class="fa-solid fa-list"></i>
+    <span>📋 Manage Matches</span>
+  </button>
+
+  <button class="admin-action-btn" data-action="toggleSection" data-target="winnerSection">
+    <i class="fa-solid fa-trophy"></i>
+    <span>🏆 Declare Winner</span>
+  </button>
+
+  <button class="admin-action-btn" data-action="toggleSection" data-target="upiSection">
+    <i class="fa-solid fa-gear"></i>
+    <span>⚙️ UPI Settings</span>
+  </button>
+
+  <button class="admin-action-btn" data-action="toggleSection" data-target="announcementSection">
+    <i class="fa-solid fa-bullhorn"></i>
+    <span>📢 Announcement</span>
+  </button>
+
+  <button class="admin-action-btn" data-action="toggleSection" data-target="userMgmtSection" data-extra="loadUserManagement">
+    <i class="fa-solid fa-users"></i>
+    <span>👥 User Management</span>
+  </button>
+
+  <button class="admin-action-btn" data-action="toggleSection" data-target="revenueSection" data-extra="loadRevenueChart">
+    <i class="fa-solid fa-chart-bar"></i>
+    <span>📊 Revenue Chart</span>
+  </button>
+
+  <button class="admin-action-btn" data-action="exportTransactionsCSV">
+    <i class="fa-solid fa-file-export"></i>
+    <span>📥 Export CSV</span>
+  </button>
+
+  <button class="admin-action-btn" data-action="sendNotifToAll">
+    <i class="fa-solid fa-bullhorn"></i>
+    <span>📣 Notify All Users</span>
+  </button>
+
+</div>
+
+<!-- DEPOSIT REQUESTS SECTION -->
+<div id="depositSection" class="admin-section" style="display:none;">
+  <div class="admin-section-header">
+    <h2>💰 Deposit Requests</h2>
+    <button class="close-btn" data-action="toggleSection" data-target="depositSection">✕ Close</button>
+  </div>
+  <div id="depositContainer"></div>
+</div>
+
+<!-- WITHDRAWAL REQUESTS SECTION -->
+<div id="withdrawSection" class="admin-section" style="display:none;">
+  <div class="admin-section-header">
+    <h2>🏦 Withdrawal Requests</h2>
+    <button class="close-btn" data-action="toggleSection" data-target="withdrawSection">✕ Close</button>
+  </div>
+  <div id="withdrawContainer"></div>
+</div>
+
+<!-- CREATE MATCH SECTION -->
+<div id="matchSection" class="admin-section" style="display:none;">
+  <div class="admin-section-header">
+    <h2>🎮 Create Match</h2>
+    <button class="close-btn" data-action="toggleSection" data-target="matchSection">✕ Close</button>
+  </div>
+  <div class="login-container" style="margin:0;width:100%;max-width:100%;">
+    <input type="text"   id="matchName"  placeholder="Match Name"/>
+    <input type="number" id="entryFee"   placeholder="Entry Fee"/>
+    <input type="number" id="prizePool"  placeholder="Prize Pool"/>
+    <input type="number" id="maxPlayers" placeholder="Maximum Players"/>
+    <textarea id="matchNote" placeholder="Enter Match Note"></textarea>
+    <input type="text"   id="roomId"     placeholder="Room ID"/>
+    <input type="text"   id="roomPass"   placeholder="Room Password"/>
+    <input type="date"   id="matchDate"/>
+    <input type="time"   id="matchTime"/>
+    <input type="text"   id="matchType"  placeholder="Solo / Duo / Squad"/>
+    <input type="text"   id="mapName"    placeholder="Map Name"/>
+    <!-- BANNER FILE UPLOAD -->
+    <label style="color:#aaa;font-size:13px;display:block;margin-bottom:6px;">📷 Match Banner Image</label>
+    <input type="file" id="bannerFile" accept="image/*" style="
+      width:100%;padding:10px;background:#222;color:white;
+      border-radius:10px;border:1px dashed #00ffd5;cursor:pointer;margin-bottom:8px;"/>
+    <div id="bannerPreview" style="display:none;margin-bottom:10px;text-align:center;">
+      <img id="bannerPreviewImg" style="width:100%;border-radius:10px;border:1px solid #333;max-height:160px;object-fit:cover;"/>
+      <p style="color:#00ffd5;font-size:12px;margin-top:5px;">✅ Banner selected</p>
+      <button type="button" data-action="clearBanner" style="
+        margin-top:4px;padding:6px 14px;font-size:12px;
+        background:#333;color:#ff4444;border-radius:8px;">
+        ✕ Remove
+      </button>
+    </div>
+    <!-- Hidden — stores base64 or existing URL -->
+    <input type="hidden" id="bannerUrl"/>
+    <button id="submitMatchBtn">Create Match</button>
+  </div>
+</div>
+
+<!-- MANAGE MATCHES SECTION -->
+<div id="matchListSection" class="admin-section" style="display:none;">
+  <div class="admin-section-header">
+    <h2>📋 Manage Matches</h2>
+    <button class="close-btn" data-action="toggleSection" data-target="matchListSection">✕ Close</button>
+  </div>
+  <section class="matches" id="adminMatches"></section>
+</div>
+
+<!-- DECLARE WINNER SECTION -->
+<div id="winnerSection" class="admin-section" style="display:none;">
+  <div class="admin-section-header">
+    <h2>🏆 Declare Winner</h2>
+    <button class="close-btn" data-action="toggleSection" data-target="winnerSection">✕ Close</button>
+  </div>
+  <div class="login-container" style="margin:0;width:100%;max-width:100%;">
+    <input type="text"   id="winnerEmail" placeholder="Winner Email"/>
+    <input type="number" id="winnerPrize" placeholder="Prize Amount"/>
+    <button data-action="declareWinner">Declare Winner</button>
+  </div>
+</div>
+
+<!-- UPI SETTINGS SECTION -->
+<div id="upiSection" class="admin-section" style="display:none;">
+  <div class="admin-section-header">
+    <h2>⚙️ UPI Settings</h2>
+    <button class="close-btn" data-action="toggleSection" data-target="upiSection">✕ Close</button>
+  </div>
+  <div class="login-container" style="margin:0;width:100%;max-width:100%;">
+    <input type="text" id="upiIdInput" placeholder="Enter Your UPI ID (e.g. name@upi)"/>
+    <button data-action="saveUpiId" style="margin-top:10px;">💾 Save UPI ID</button>
+    <p style="color:#aaa;font-size:13px;margin-top:10px;">
+      Current UPI: <strong id="currentUpiDisplay" style="color:#00ffd5;">Loading...</strong>
+    </p>
+  </div>
+</div>
+
+<!-- ANNOUNCEMENT SECTION -->
+<div id="announcementSection" class="admin-section" style="display:none;">
+  <div class="admin-section-header">
+    <h2>📢 Announcement</h2>
+    <button class="close-btn" data-action="toggleSection" data-target="announcementSection">✕ Close</button>
+  </div>
+  <div class="login-container" style="margin:0;width:100%;max-width:100%;">
+    <textarea id="announcementText" placeholder="Enter announcement for players" style="min-height:100px;"></textarea>
+    <button data-action="publishAnnouncement">📢 Publish Announcement</button>
+    <button data-action="deleteAnnouncement" style="margin-top:8px;background:linear-gradient(135deg,#ff4444,#ff0000);color:white;">🗑️ Delete Announcement</button>
+  </div>
+</div>
+
+<!-- USER MANAGEMENT SECTION -->
+<div id="userMgmtSection" class="admin-section" style="display:none;">
+  <div class="admin-section-header">
+    <h2>👥 User Management</h2>
+    <button class="close-btn" data-action="toggleSection" data-target="userMgmtSection">✕ Close</button>
+  </div>
+  <div style="padding:15px;">
+    <input type="text" id="userSearchInput" placeholder="🔍 Search by email or game name..."
+      oninput="searchUsers()"
+      style="width:100%;padding:12px;background:#1a1a1a;border:1px solid #333;
+             border-radius:10px;color:white;outline:none;margin-bottom:12px;font-size:14px;"/>
+    <div id="userListContainer"></div>
+  </div>
+</div>
+
+<!-- REVENUE CHART SECTION -->
+<div id="revenueSection" class="admin-section" style="display:none;">
+  <div class="admin-section-header">
+    <h2>📊 Revenue Chart</h2>
+    <button class="close-btn" data-action="toggleSection" data-target="revenueSection">✕ Close</button>
+  </div>
+  <div style="padding:15px;">
+    <div style="background:#1a1a1a;border-radius:14px;padding:16px;margin-bottom:14px;
+                display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;text-align:center;">
+      <div>
+        <p style="color:#aaa;font-size:12px;margin:0 0 4px;">Total Deposits</p>
+        <h3 id="revTotalDeposit" style="color:#00ff88;margin:0;">₹0</h3>
+      </div>
+      <div>
+        <p style="color:#aaa;font-size:12px;margin:0 0 4px;">Total Withdrawn</p>
+        <h3 id="revTotalWithdraw" style="color:#ff4444;margin:0;">₹0</h3>
+      </div>
+      <div>
+        <p style="color:#aaa;font-size:12px;margin:0 0 4px;">Net Profit</p>
+        <h3 id="revNetProfit" style="color:#00ffd5;margin:0;">₹0</h3>
+      </div>
+    </div>
+    <canvas id="revenueChart" style="width:100%;max-height:300px;"></canvas>
+  </div>
+</div>
+
+<footer style="text-align:center;padding:20px;color:gray;margin-top:30px;">
+  © 2026 Phantom Warzone
+</footer>
+
+<div id="toast"></div>
+
+<script>
+// TOGGLE SECTION OPEN/CLOSE
+function toggleSection(id) {
+  const section = document.getElementById(id);
+  const isOpen  = section.style.display === "block";
+  // Close all sections first
+  document.querySelectorAll(".admin-section").forEach(s => s.style.display = "none");
+  // Open clicked one if it was closed
+  if (!isOpen) {
+    section.style.display = "block";
+    section.scrollIntoView({ behavior: "smooth", block: "start" });
+  }
+}
+</script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<script src="popup.js"></script>
+<script type="module" src="admin.js"></script>
+
+
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+  const btn = document.getElementById("logoutAdminBtn");
+  if (btn) {
+    btn.addEventListener("click", async () => {
+      try {
+        const { auth } = await import("./firebase-config.js");
+        const { signOut } = await import("https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js");
+        await signOut(auth);
+      } catch(e) { console.log(e); }
+      window.location.href = "login.html";
+    });
+  }
+});
+</script>
+
+<script>
+// ── UNIVERSAL BUTTON DISPATCHER ─────────────────────────
+// Waits for module to be ready, then handles all button clicks
+// This fixes the "button not working on first load" issue
+
+function waitForFn(name, retries = 20) {
+  return new Promise((resolve, reject) => {
+    const check = (i) => {
+      if (typeof window[name] === "function") resolve(window[name]);
+      else if (i <= 0) reject(new Error(name + " not loaded"));
+      else setTimeout(() => check(i - 1), 150);
+    };
+    check(retries);
+  });
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+
+  document.body.addEventListener("click", async (e) => {
+    const btn = e.target.closest("[data-action]");
+    if (!btn) return;
+
+    const action = btn.dataset.action;
+    const target = btn.dataset.target;
+    const extra  = btn.dataset.extra;
+
+    try {
+      if (action === "toggleSection") {
+        // toggleSection is defined inline — always available
+        if (typeof toggleSection === "function") {
+          toggleSection(target);
+        }
+        // If there's an extra function to call (e.g. loadUserManagement)
+        if (extra) {
+          const fn = await waitForFn(extra);
+          fn();
+        }
+      } else {
+        // All other actions — wait for module to export them to window
+        const fn = await waitForFn(action);
+        fn();
+      }
+    } catch(err) {
+      console.error("Button action failed:", action, err);
+      alert("Still loading, please try again in a moment.");
+    }
+  });
+
+});
+</script>
+
+</body>
+</html>

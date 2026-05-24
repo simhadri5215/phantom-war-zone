@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>My Matches</title>
+  <link rel="stylesheet" href="style.css"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"/>
+</head>
+<body>
+
+<header>
+  <h1>MY MATCHES</h1>
+  <button onclick="window.location.href='dashboard.html'">Dashboard</button>
+</header>
+
+<section class="matches" id="matchesContainer"></section>
+
+<footer>
+  <div class="social-links">
+    <a href="https://t.me/phantomwarzone" target="_blank" class="social-btn telegram">
+      <i class="fa-brands fa-telegram"></i> Telegram Channel
+    </a>
+    <a href="https://t.me/Phantomwarzonesupport" target="_blank" class="social-btn support">
+      <i class="fa-solid fa-headset"></i> Support
+    </a>
+    <a href="https://www.instagram.com/phantom_war_zone?igsh=MWxtdm4xc3Q0OHcxcw==" target="_blank" class="social-btn instagram">
+      <i class="fa-brands fa-instagram"></i> Instagram
+    </a>
+  </div>
+  <p>© 2026 Phantom Warzone</p>
+</footer>
+
+<div id="toast"></div>
+
+<nav class="bottom-nav">
+  <button onclick="window.location.href='dashboard.html'">
+    <i class="fa-solid fa-house"></i>
+    <span>Home</span>
+  </button>
+  <button onclick="window.location.href='dashboard.html#matchesContainer'">
+    <i class="fa-solid fa-fire"></i>
+    <span>Join</span>
+  </button>
+  <button onclick="window.location.href='mymatches.html'">
+    <i class="fa-solid fa-gamepad"></i>
+    <span>My Matches</span>
+  </button>
+  <button onclick="window.location.href='history.html'">
+    <i class="fa-solid fa-wallet"></i>
+    <span>Wallet</span>
+  </button>
+  <button onclick="window.location.href='profile.html'">
+    <i class="fa-solid fa-user"></i>
+    <span>Profile</span>
+  </button>
+</nav>
+
+<script type="module" src="mymatches.js"></script>
+
+</body>
+</html>

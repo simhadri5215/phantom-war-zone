@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Leaderboard</title>
+  <link rel="stylesheet" href="style.css"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"/>
+  <style>
+    .lb-tabs { display:flex; gap:8px; padding:15px; }
+    .lb-tab {
+      flex:1; padding:10px; border-radius:10px; border:1px solid #333;
+      background:#1a1a1a; color:#aaa; font-weight:600; font-size:13px; cursor:pointer;
+    }
+    .lb-tab.active { background:linear-gradient(135deg,#00ffd5,#00a8ff); color:black; border:none; }
+    .lb-card {
+      display:flex; align-items:center; gap:14px;
+      background:#151515; border:1px solid #222; border-radius:14px;
+      padding:14px 16px; margin:0 15px 10px;
+    }
+    .lb-card.rank-1 { border-color:gold; box-shadow:0 0 15px rgba(255,215,0,0.2); }
+    .lb-card.rank-2 { border-color:silver; }
+    .lb-card.rank-3 { border-color:#cd7f32; }
+    .lb-rank { font-size:22px; font-weight:700; min-width:36px; text-align:center; }
+    .lb-avatar {
+      width:44px; height:44px; border-radius:50%; object-fit:cover;
+      border:2px solid #333; flex-shrink:0;
+    }
+    .lb-info { flex:1; min-width:0; }
+    .lb-name { color:#00ffd5; font-weight:600; font-size:15px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+    .lb-email { color:#666; font-size:11px; }
+    .lb-stats { display:flex; gap:12px; margin-top:4px; }
+    .lb-stat { font-size:12px; color:#aaa; }
+    .lb-stat strong { color:white; }
+    .lb-val { font-size:20px; font-weight:700; color:#00ffd5; min-width:50px; text-align:right; }
+    .lb-val small { display:block; color:#aaa; font-size:10px; font-weight:400; }
+    .lb-header { padding:15px 15px 5px; }
+    .lb-header h1 { color:#00ffd5; font-size:22px; }
+    .lb-header p { color:#aaa; font-size:13px; }
+  </style>
+</head>
+<body>
+
+<header>
+  <h1>🏆 Leaderboard</h1>
+</header>
+
+<div class="lb-header">
+  <p>Top players this season</p>
+</div>
+
+<div class="lb-tabs">
+  <button class="lb-tab active" onclick="switchTab('wins', this)">🏆 By Wins</button>
+  <button class="lb-tab" onclick="switchTab('kills', this)">💀 By Kills</button>
+  <button class="lb-tab" onclick="switchTab('wallet', this)">💰 By Wallet</button>
+</div>
+
+<div id="leaderboardContainer"></div>
+
+<nav class="bottom-nav">
+  <button onclick="window.location.href='dashboard.html'"><i class="fa-solid fa-house"></i><span>Home</span></button>
+  <button onclick="window.location.href='dashboard.html#matchesContainer'"><i class="fa-solid fa-fire"></i><span>Join</span></button>
+  <button onclick="window.location.href='mymatches.html'"><i class="fa-solid fa-gamepad"></i><span>My Matches</span></button>
+  <button onclick="window.location.href='history.html'"><i class="fa-solid fa-wallet"></i><span>Wallet</span></button>
+  <button onclick="window.location.href='profile.html'"><i class="fa-solid fa-user"></i><span>Profile</span></button>
+</nav>
+
+<footer>
+  <p>© 2026 Phantom Warzone</p>
+</footer>
+
+<div id="toast"></div>
+<script type="module" src="leaderboard.js"></script>
+<script>
+function switchTab(mode, btn) {
+  document.querySelectorAll(".lb-tab").forEach(b => b.classList.remove("active"));
+  btn.classList.add("active");
+  if (window.renderLeaderboard) window.renderLeaderboard(mode);
+}
+</script>
+</body>
+</html>

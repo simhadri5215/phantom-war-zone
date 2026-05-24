@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport"
+  content="width=device-width, initial-scale=1.0"/>
+
+  <title>Winners</title>
+
+  <link rel="stylesheet"
+  href="style.css"/>
+  <link
+rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"/>
+</head>
+<body>
+
+<header>
+
+  <h1>WINNERS</h1>
+
+</header>
+
+<section
+class="matches"
+id="winnersContainer">
+
+</section>
+
+<script type="module"
+src="winners.js"></script>
+<footer style="
+text-align:center;
+padding:20px;
+color:gray;
+">
+
+  © 2026 Phantom Warzone
+
+</footer>
+<div id="toast"></div>
+<script>
+
+window.addEventListener("load", ()=>{
+
+  const loader =
+  document.getElementById("loader");
+
+  if(loader){
+
+    loader.style.opacity = "0";
+
+    setTimeout(()=>{
+
+      loader.style.display = "none";
+
+    },500);
+
+  }
+
+});
+
+</script>
+
+<nav class="bottom-nav">
+  <button onclick="window.location.href='dashboard.html'">
+    <i class="fa-solid fa-house"></i>
+    <span>Home</span>
+  </button>
+  <button onclick="window.location.href='dashboard.html#matchesContainer'">
+    <i class="fa-solid fa-fire"></i>
+    <span>Join</span>
+  </button>
+  <button onclick="window.location.href='mymatches.html'">
+    <i class="fa-solid fa-gamepad"></i>
+    <span>My Matches</span>
+  </button>
+  <button onclick="window.location.href='history.html'">
+    <i class="fa-solid fa-wallet"></i>
+    <span>Wallet</span>
+  </button>
+  <button onclick="window.location.href='profile.html'">
+    <i class="fa-solid fa-user"></i>
+    <span>Profile</span>
+  </button>
+</nav>
+</body>
+</html>

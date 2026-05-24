@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+  <meta charset="UTF-8"/>
+
+  <meta name="viewport"
+  content="width=device-width, initial-scale=1.0"/>
+
+  <title>Phantom Warzone</title>
+
+  <link rel="stylesheet"
+  href="style.css"/>
+
+  <link
+  rel="stylesheet"
+  href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"/>
+
+  <link rel="manifest" href="manifest.json"/>
+  <meta name="theme-color" content="#00ffd5"/>
+  <meta name="apple-mobile-web-app-capable" content="yes"/>
+  <meta name="apple-mobile-web-app-title" content="PhantomWZ"/>
+</head>
+<body>
+
+<!-- LOADER -->
+
+<div id="loader">
+
+  <div class="spinner"></div>
+
+  <p>Loading...</p>
+
+</div>
+
+<!-- HEADER -->
+
+<header>
+
+  <h1>PHANTOM WARZONE</h1>
+
+  <div>
+
+    <button onclick="goLogin()">
+      Login
+    </button>
+
+  </div>
+
+</header>
+
+<!-- HERO -->
+
+<section class="hero">
+
+  <div class="hero-overlay">
+
+    <h2>
+      PLAY • COMPETE • WIN
+    </h2>
+
+    <p>
+
+      India's Ultimate Free Fire
+      Tournament Platform
+
+    </p>
+
+    <button onclick="goLogin()">
+
+      Start Playing
+
+    </button>
+
+  </div>
+
+</section>
+
+<!-- LIVE TOURNAMENTS -->
+
+<section class="home-section">
+
+  <h2>🔥 Live Tournaments</h2>
+
+  <div class="home-grid">
+
+    <div class="card">
+
+      <img
+      src="https://images.augustman.com/wp-content/uploads/sites/6/2023/09/05201105/FF-4.jpg"
+      class="match-banner"/>
+
+      <h3>Bermuda Squad</h3>
+
+      <p>Prize Pool: ₹500</p>
+
+      <p>Entry Fee: ₹50</p>
+
+    </div>
+
+    <div class="card">
+
+      <img
+      src="https://i.ytimg.com/vi/sYP6xZXqdCQ/maxresdefault.jpg"
+      class="match-banner"/>
+
+      <h3>Clash Squad</h3>
+
+      <p>Prize Pool: ₹300</p>
+
+      <p>Entry Fee: ₹30</p>
+
+    </div>
+
+  </div>
+
+</section>
+
+<!-- WINNERS -->
+
+<section class="home-section">
+
+  <h2>🏆 Recent Winners</h2>
+
+  <div class="home-grid">
+
+    <div class="card">
+
+      <h3>Rahul Gaming</h3>
+
+      <p>Won ₹1000</p>
+
+    </div>
+
+    <div class="card">
+
+      <h3>Shadow FF</h3>
+
+      <p>Won ₹750</p>
+
+    </div>
+
+  </div>
+
+</section>
+
+<!-- STATS -->
+
+<section class="stats-section">
+
+  <div class="stat-box">
+
+    <h2>10K+</h2>
+
+    <p>Players</p>
+
+  </div>
+
+  <div class="stat-box">
+
+    <h2>5K+</h2>
+
+    <p>Matches</p>
+
+  </div>
+
+  <div class="stat-box">
+
+    <h2>₹2L+</h2>
+
+    <p>Rewards Paid</p>
+
+  </div>
+
+</section>
+
+<!-- HOW IT WORKS -->
+
+<section class="home-section">
+
+  <h2>🎮 How It Works</h2>
+
+  <div class="home-grid">
+
+    <div class="card">
+
+      <h3>1. Join Match</h3>
+
+      <p>
+
+        Enter tournaments using your wallet.
+
+      </p>
+
+    </div>
+
+    <div class="card">
+
+      <h3>2. Play Match</h3>
+
+      <p>
+
+        Get room ID & password before match.
+
+      </p>
+
+    </div>
+
+    <div class="card">
+
+      <h3>3. Win Rewards</h3>
+
+      <p>
+
+        Winners receive instant rewards.
+
+      </p>
+
+    </div>
+
+  </div>
+
+</section>
+
+<!-- APP SECTION -->
+
+<section class="home-section">
+
+  <div class="card">
+
+    <h2>📱 Android App Coming Soon</h2>
+
+    <p>
+
+      Download Phantom Warzone App Soon.
+
+    </p>
+
+  </div>
+
+</section>
+
+<!-- FOOTER -->
+
+<footer>
+
+  <p>
+
+    © 2026 Phantom Warzone
+
+  </p>
+
+  <div class="social-links">
+  <a href="https://t.me/phantomwarzone" target="_blank" class="social-btn telegram">
+    <i class="fa-brands fa-telegram"></i> Telegram Channel
+  </a>
+  <a href="https://t.me/Phantomwarzonesupport" target="_blank" class="social-btn support">
+    <i class="fa-solid fa-headset"></i> Support
+  </a>
+  <a href="https://www.instagram.com/phantom_war_zone?igsh=MWxtdm4xc3Q0OHcxcw==" target="_blank" class="social-btn instagram">
+    <i class="fa-brands fa-instagram"></i> Instagram
+  </a>
+</div>
+</footer>
+
+<script>
+
+function goLogin(){
+
+  window.location.href =
+  "login.html";
+
+}
+
+// LOADER
+window.addEventListener("load", ()=>{
+
+  const loader =
+  document.getElementById("loader");
+
+  loader.style.opacity = "0";
+
+  setTimeout(()=>{
+
+    loader.style.display = "none";
+
+  },500);
+
+});
+
+</script>
+
+
+<script>
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", () => {
+    navigator.serviceWorker.register("/sw.js").catch(() => {});
+  });
+}
+</script>
+</body>
+</html>

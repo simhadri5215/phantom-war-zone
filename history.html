@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Wallet History</title>
+  <link rel="stylesheet" href="style.css"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"/>
+  <style>
+    .history-summary {
+      display:grid; grid-template-columns:1fr 1fr; gap:10px;
+      padding:15px; margin-bottom:4px;
+    }
+    .hsumm-card {
+      border-radius:12px; padding:14px; text-align:center;
+    }
+    .hsumm-card.credit { background:#0d2a1a; border:1px solid #00ff88; }
+    .hsumm-card.debit  { background:#2a0d0d; border:1px solid #ff4444; }
+    .hsumm-card p { font-size:12px; color:#aaa; margin:0 0 4px; }
+    .hsumm-card h2 { font-size:22px; font-weight:700; margin:0; }
+    .hsumm-card.credit h2 { color:#00ff88; }
+    .hsumm-card.debit  h2 { color:#ff4444; }
+    .filter-bar { padding:0 15px 10px; display:flex; gap:8px; flex-wrap:wrap; align-items:center; }
+    .filter-tab {
+      padding:8px 14px; border-radius:20px; border:1px solid #333;
+      background:#1a1a1a; color:#aaa; font-size:13px; font-weight:600; cursor:pointer;
+    }
+    .filter-tab.active { background:linear-gradient(135deg,#00ffd5,#00a8ff); color:black; border:none; }
+    .date-inputs { display:flex; gap:8px; padding:0 15px 12px; }
+    .date-inputs input {
+      flex:1; padding:10px; background:#1a1a1a; border:1px solid #333;
+      border-radius:10px; color:white; font-size:13px; outline:none;
+    }
+    .date-inputs input:focus { border-color:#00ffd5; }
+    .tx-card {
+      background:#151515; border:1px solid #222; border-radius:14px;
+      padding:14px 16px; margin:0 15px 10px;
+      display:flex; align-items:center; gap:12px;
+    }
+    .tx-icon {
+      width:42px; height:42px; border-radius:50%;
+      display:flex; align-items:center; justify-content:center;
+      font-size:18px; flex-shrink:0;
+    }
+    .tx-icon.credit { background:#0d2a1a; }
+    .tx-icon.debit  { background:#2a0d0d; }
+    .tx-info { flex:1; }
+    .tx-info h4 { color:white; font-size:14px; margin:0 0 3px; }
+    .tx-info p  { color:#666; font-size:12px; margin:0; }
+    .tx-amount { font-size:17px; font-weight:700; }
+    .tx-amount.credit { color:#00ff88; }
+    .tx-amount.debit  { color:#ff4444; }
+    .no-tx { text-align:center; padding:40px 20px; color:#aaa; }
+  </style>
+</head>
+<body>
+
+<header>
+  <h1>💰 Wallet History</h1>
+</header>
+
+<!-- SUMMARY -->
+<div class="history-summary">
+  <div class="hsumm-card credit">
+    <p>Total Credited</p>
+    <h2 id="totalCredit">₹0</h2>
+  </div>
+  <div class="hsumm-card debit">
+    <p>Total Debited</p>
+    <h2 id="totalDebit">₹0</h2>
+  </div>
+</div>
+
+<!-- FILTER TABS -->
+<div class="filter-bar">
+  <button class="filter-tab active" onclick="setFilter('all', this)">All</button>
+  <button class="filter-tab" onclick="setFilter('credit', this)">✅ Credits</button>
+  <button class="filter-tab" onclick="setFilter('debit', this)">🔴 Debits</button>
+</div>
+
+<!-- DATE RANGE -->
+<div class="date-inputs">
+  <input type="date" id="dateFrom" onchange="applyFilters()" placeholder="From"/>
+  <input type="date" id="dateTo"   onchange="applyFilters()" placeholder="To"/>
+</div>
+
+<div id="historyContainer"></div>
+
+<div id="toast"></div>
+<nav class="bottom-nav">
+  <button onclick="window.location.href='dashboard.html'"><i class="fa-solid fa-house"></i><span>Home</span></button>
+  <button onclick="window.location.href='dashboard.html#matchesContainer'"><i class="fa-solid fa-fire"></i><span>Join</span></button>
+  <button onclick="window.location.href='mymatches.html'"><i class="fa-solid fa-gamepad"></i><span>My Matches</span></button>
+  <button onclick="window.location.href='history.html'"><i class="fa-solid fa-wallet"></i><span>Wallet</span></button>
+  <button onclick="window.location.href='profile.html'"><i class="fa-solid fa-user"></i><span>Profile</span></button>
+</nav>
+
+<script>
+let currentFilter = "all";
+function setFilter(f, btn) {
+  currentFilter = f;
+  document.querySelectorAll(".filter-tab").forEach(b => b.classList.remove("active"));
+  btn.classList.add("active");
+  if (window.applyFilters) window.applyFilters();
+}
+</script>
+<script type="module" src="history.js"></script>
+</body>
+</html>
