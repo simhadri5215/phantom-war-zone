@@ -176,6 +176,7 @@
     }
     .forgot-link:hover { text-decoration: underline; }
   </style>
+  <link rel="icon" type="image/jpeg" href="logo.jpg"/>
 </head>
 <body>
 
@@ -183,7 +184,7 @@
 
   <!-- LOGO -->
   <div class="auth-logo">
-    <h1>⚡ PHANTOM WARZONE</h1>
+    <h1><img src="logo.jpg" alt="" style="height:32px;width:32px;border-radius:50%;object-fit:cover;vertical-align:middle;margin-right:8px;border:1.5px solid #00ffd5;"/>⚡ PHANTOM WARZONE</h1>
     <p>India's Ultimate Free Fire Tournament Platform</p>
   </div>
 
@@ -286,6 +287,15 @@ function switchTab(tab) {
   document.getElementById("tabLogin").classList.toggle("active", tab === "login");
   document.getElementById("tabSignup").classList.toggle("active", tab === "signup");
 }
+window.switchTab = switchTab;
+
+// Auto-switch to signup if referral link
+(function() {
+  const ref = new URLSearchParams(window.location.search).get("ref");
+  if (ref) {
+    document.addEventListener("DOMContentLoaded", () => switchTab("signup"));
+  }
+})();
 </script>
 
 <script src="popup.js"></script>
