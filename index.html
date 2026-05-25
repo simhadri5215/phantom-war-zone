@@ -16,10 +16,7 @@
   rel="stylesheet"
   href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"/>
 
-  <link rel="manifest" href="manifest.json"/>
-  <meta name="theme-color" content="#00ffd5"/>
-  <meta name="apple-mobile-web-app-capable" content="yes"/>
-  <meta name="apple-mobile-web-app-title" content="PhantomWZ"/>
+  <link rel="icon" type="image/jpeg" href="logo.jpg"/>
 </head>
 <body>
 
@@ -37,7 +34,7 @@
 
 <header>
 
-  <h1>PHANTOM WARZONE</h1>
+  <div style="display:flex;align-items:center;gap:10px;justify-content:center;"><img src="logo.jpg" alt="Phantom Warzone" style="height:44px;width:44px;border-radius:50%;object-fit:cover;border:2px solid #00ffd5;flex-shrink:0;"/><h1 style="margin:0;">PHANTOM WARZONE</h1></div>
 
   <div>
 
@@ -290,13 +287,5 @@ window.addEventListener("load", ()=>{
 
 </script>
 
-
-<script>
-if ("serviceWorker" in navigator) {
-  window.addEventListener("load", () => {
-    navigator.serviceWorker.register("/sw.js").catch(() => {});
-  });
-}
-</script>
 </body>
 </html>
