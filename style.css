@@ -2433,3 +2433,7 @@ body {
   .hero { height: 100vw !important; min-height: 260px; }
   .wallet-card { margin: 8px !important; padding: 14px !important; }
 }
+/* Makes logo background match dark theme */
+header img[src="logo.jpg"] {
+  background: #000;
+}
